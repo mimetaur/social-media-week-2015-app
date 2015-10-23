@@ -7,7 +7,7 @@ void getLightStatus() {
   if (client.connect(server, 80)) {
     Serial.println("connecting to /light/1/status");
     // send the HTTP PUT request:
-    client.println("GET /light/1/status HTTP/1.1");
+    client.println("GET /light/1/color HTTP/1.1");
     client.print("Host: ");
     client.println(server);
     client.println("User-Agent: ArduinoWiFi/1.1");

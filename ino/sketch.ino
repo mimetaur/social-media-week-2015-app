@@ -37,7 +37,7 @@ void setup() {
 void loop() {
 
   while (client.available()) {
-    if ( client.find("o") ) {
+    if ( client.find("r") ) {
       	Serial.println("found data in request");
         lightColor.red = client.parseInt();
         lightColor.green = client.parseInt();
