@@ -5,7 +5,6 @@
 #include "BlinkM_funcs.h"
 
 #include "light_color.h"
-#include "light_funcs.h"
 
 WiFiClient client;
 
@@ -17,7 +16,7 @@ const unsigned long postingIntervalOff = 10L * 100L;
 
 char ssid[] = "CKGuest";     //  your network SSID (name)
 char pass[] = "225CK911";  // your network password
-char server[] = "fathomless-spire-2049.herokuapp.com";
+char server[] = "social-media-week-2015.herokuapp.com";
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 light_color lightColor;
@@ -48,7 +47,7 @@ void loop() {
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
   if (millis() - lastConnectionTime > postingInterval) {
-      getTapStatus();
+		getLightStatus();
   }
 
   setLightToRgbColor(lightColor.red, lightColor.green, lightColor.blue);
