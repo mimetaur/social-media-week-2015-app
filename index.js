@@ -18,16 +18,20 @@ app.get('/light/1/color', function(req, res) {
   var color = 'r0,g0,b0';
   if (actionTriggered) {
     color = 'r0,g255,b0\n';
-    actionTriggered = false;
   }
   res.send(color);
+});
+
+app.post('/light/1/button', function(req, res) {
+  actionTriggered = false;
+  count = 0;
+  res.send("successful");
 });
 
 app.post('/action', function(req, res) {
   count++;
   if (count >= threshold) {
     actionTriggered = true;
-    count = 0;
   }
   res.send("action triggered.");
 })
