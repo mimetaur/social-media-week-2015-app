@@ -3,6 +3,10 @@
 var express = require('express');
 var app = express();
 
+var actionTriggered = false;
+var threshold = 5;
+var count = 0;
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -11,11 +15,19 @@ app.get('/', function (req, res) {
 });
 
 app.get('/light/1/color', function(req, res) {
-  res.send('r0,g255,b0\n');
+  var color = 'r0,g0,b0';
+  if (actionTriggered) {
+    color = 'r0,g255,b0\n';
+  }
+  res.send(color);
 });
 
 app.post('/action', function(req, res) {
-  res.send("this sent, congratulations!");
+  count++;
+  if (count >= threshold) {
+    actionTriggered = true;
+  }
+  res.send("action triggered.");
 })
 
 var server = app.listen(process.env.PORT || 3000, function () {
