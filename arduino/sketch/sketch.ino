@@ -20,10 +20,7 @@ char server[] = "social-media-week-2015.herokuapp.com";
 int status = WL_IDLE_STATUS;     // the Wifi radio's status
 
 light_color lightColor;
-
-const int buttonPin = 2;     // pin for the pushbutton
-int buttonState = 0;         // variable for reading the pushbutton status
-bool buttonPressed = false;
+int lightLifetime = 1000;
 
 void setup() {
 	lightColor = { 0, 0, 0 };
@@ -39,13 +36,6 @@ void setup() {
 
 void loop() {
 
-	// check if the pushbutton is pressed.
-	// if it is, the buttonState is HIGH:
-	buttonState = digitalRead(buttonPin);
-	if (buttonState == HIGH) {
-		buttonPressed = true;
-	}
-
   while (client.available()) {
     if ( client.find("r") ) {
       	Serial.println("found data in request");
@@ -55,12 +45,6 @@ void loop() {
     }
   }
 
-	if ( (millis() - lastConnectionTimeOff > postingIntervalOff) && buttonPressed == true ) {
-		turnLightOff();
-		postButtonPress();
-		buttonPressed = false;
-	}
-
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
   if (millis() - lastConnectionTime > postingInterval) {
@@ -68,4 +52,6 @@ void loop() {
   }
 
   setLightToRgbColor(lightColor.red, lightColor.green, lightColor.blue);
+	delay(500);
+	turnLightOff();
 }

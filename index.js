@@ -4,8 +4,6 @@ var express = require('express');
 var app = express();
 
 var actionTriggered = false;
-var threshold = 5;
-var count = 0;
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -22,17 +20,11 @@ app.get('/light/1/color', function(req, res) {
   res.send(color);
 });
 
-app.post('/light/1/button', function(req, res) {
-  actionTriggered = false;
-  count = 0;
-  res.send("successful");
-});
-
 app.post('/action', function(req, res) {
-  count++;
-  if (count >= threshold) {
-    actionTriggered = true;
-  }
+  actionTriggered = true;
+  setTimeout(function() {
+    actionTriggered = false;
+  }, 2000);
   res.send("action triggered.");
 })
 
