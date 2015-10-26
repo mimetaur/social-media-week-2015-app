@@ -22,9 +22,11 @@ app.get('/light/1/color', function(req, res) {
 
 app.post('/action', function(req, res) {
   actionTriggered = true;
+
   setTimeout(function() {
     actionTriggered = false;
-  }, 2000);
+  }, 1000);
+
   res.send("action triggered.");
 })
 

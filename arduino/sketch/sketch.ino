@@ -9,10 +9,7 @@
 WiFiClient client;
 
 unsigned long lastConnectionTime = 0;            // last time you connected to the server, in milliseconds
-const unsigned long postingInterval = 10L * 500L; // delay between updates, in milliseconds
-
-unsigned long lastConnectionTimeOff = 0;
-const unsigned long postingIntervalOff = 10L * 100L;
+const unsigned long postingInterval = 10L * 100L; // delay between updates, in milliseconds
 
 char ssid[] = "CKGuest";     //  your network SSID (name)
 char pass[] = "225CK911";  // your network password
@@ -52,6 +49,4 @@ void loop() {
   }
 
   setLightToRgbColor(lightColor.red, lightColor.green, lightColor.blue);
-	delay(500);
-	turnLightOff();
 }
