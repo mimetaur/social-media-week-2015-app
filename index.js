@@ -23,9 +23,9 @@ app.get('/light/1/color', function(req, res) {
 app.post('/action', function(req, res) {
   actionTriggered = true;
 
-  setTimeout(function() {
-    actionTriggered = false;
-  }, 1000);
+  // setTimeout(function() {
+  //   actionTriggered = false;
+  // }, 1000);
 
   res.send("action triggered.");
 })
