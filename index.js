@@ -31,13 +31,24 @@ app.get('/light/1/color', function(req, res) {
   res.send(color);
 });
 
-app.post('/action', function(req, res) {
-  actionTriggered = true;
-  pusher.trigger('test_channel', 'my_event', {
-    "message": "hello world"
-  });
-  res.send("action triggered.");
-})
+// Twit library for consuming twitter streams
+// https://github.com/ttezel/twit
+var Twit = require('twit');
+var twit = new Twit({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token: process.env.TWITTER_ACCESS_TOKEN,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
+var stream = twit.stream('statuses/filter', { track: "#" + process.env.HASHTAG });
+console.info("Hashtag: ", process.env.HASHTAG);
+
+stream.on('tweet', function(tweet) {
+  console.info("Hashtag Tweeted: ", process.env.HASHTAG);
+    pusher.trigger('test_channel', 'my_event', {
+      "message": "hello world"
+    });
+});
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
