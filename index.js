@@ -12,8 +12,8 @@ var Pusher = require('pusher');
 
 var pusher = new Pusher({
   appId: '150497',
-  key: '81dbe474deeb74260612',
-  secret: '1f6e26e49679bc250300',
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
   encrypted: true
 });
 pusher.port = 443;

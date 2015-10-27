@@ -33,20 +33,33 @@ void setup() {
 
 void loop() {
 
-  while (client.available()) {
-    if ( client.find("r") ) {
-      	Serial.println("found data in request");
-        lightColor.red = client.parseInt();
-        lightColor.green = client.parseInt();
-        lightColor.blue = client.parseInt();
-    }
-  }
+	PusherClient client;
+
+	if(client.connect("your-api-key-here")) {
+	  //Connected!
+	}
+	else {
+	  //Uh oh.
+	}
+
+	void loop() {
+	  client.monitor();  //Must have a call to monitor() inside loop()
+	}
+
+  // while (client.available()) {
+  //   if ( client.find("r") ) {
+  //     	Serial.println("found data in request");
+  //       lightColor.red = client.parseInt();
+  //       lightColor.green = client.parseInt();
+  //       lightColor.blue = client.parseInt();
+  //   }
+  // }
 
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
-  if (millis() - lastConnectionTime > postingInterval) {
-		getLightColor();
-  }
+  // if (millis() - lastConnectionTime > postingInterval) {
+	// 	getLightColor();
+  // }
 
-  setLightToRgbColor(lightColor.red, lightColor.green, lightColor.blue);
+  // setLightToRgbColor(lightColor.red, lightColor.green, lightColor.blue);
 }
