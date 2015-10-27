@@ -8,6 +8,16 @@ var actionTriggered = false;
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '150497',
+  key: '81dbe474deeb74260612',
+  secret: '1f6e26e49679bc250300',
+  encrypted: true
+});
+pusher.port = 443;
+
 app.get('/', function (req, res) {
   res.send("HELLO WORLD");
 });
@@ -23,6 +33,9 @@ app.get('/light/1/color', function(req, res) {
 
 app.post('/action', function(req, res) {
   actionTriggered = true;
+  pusher.trigger('test_channel', 'my_event', {
+    "message": "hello world"
+  });
   res.send("action triggered.");
 })
 
@@ -30,18 +43,4 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Web app listening at http://%s:%s', host, port);
-});
-
-var Pusher = require('pusher');
-
-var pusher = new Pusher({
-  appId: '150497',
-  key: '81dbe474deeb74260612',
-  secret: '1f6e26e49679bc250300',
-  encrypted: true
-});
-pusher.port = 443;
-
-pusher.trigger('test_channel', 'my_event', {
-  "message": "hello world"
 });
