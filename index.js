@@ -45,8 +45,8 @@ console.info("Hashtag: ", process.env.HASHTAG);
 
 stream.on('tweet', function(tweet) {
   console.info("Hashtag Tweeted: ", process.env.HASHTAG);
-    pusher.trigger('test_channel', 'my_event', {
-      "message": "hello world"
+    pusher.trigger('smw2015_channel', 'hashtag_tweeted', {
+      "hashtag": process.env.HASHTAG
     });
 });
 
