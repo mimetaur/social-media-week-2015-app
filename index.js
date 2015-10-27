@@ -16,17 +16,13 @@ app.get('/light/1/color', function(req, res) {
   var color = 'r0,g0,b0';
   if (actionTriggered) {
     color = 'r0,g255,b0\n';
+    actionTriggered = !actionTriggered;
   }
   res.send(color);
 });
 
 app.post('/action', function(req, res) {
   actionTriggered = true;
-
-  // setTimeout(function() {
-  //   actionTriggered = false;
-  // }, 1000);
-
   res.send("action triggered.");
 })
 
