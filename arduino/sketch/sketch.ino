@@ -9,7 +9,7 @@
 WiFiClient client;
 
 unsigned long lastConnectionTime = 0;            // last time you connected to the server, in milliseconds
-const unsigned long postingInterval = 10L * 250L; // delay between updates, in milliseconds
+const unsigned long postingInterval = 2000L; // delay between updates, in milliseconds
 
 char ssid[] = "CKGuest";     //  your network SSID (name)
 char pass[] = "225CK911";  // your network password

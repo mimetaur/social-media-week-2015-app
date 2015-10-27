@@ -31,3 +31,17 @@ var server = app.listen(process.env.PORT || 3000, function () {
   var port = server.address().port;
   console.log('Web app listening at http://%s:%s', host, port);
 });
+
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '150497',
+  key: '81dbe474deeb74260612',
+  secret: '1f6e26e49679bc250300',
+  encrypted: true
+});
+pusher.port = 443;
+
+pusher.trigger('test_channel', 'my_event', {
+  "message": "hello world"
+});
