@@ -2,27 +2,28 @@
 #include <WiFi.h>
 #include <Ethernet.h>
 #include <PusherClient.h>
-
 #include "Wire.h"
 #include "BlinkM_funcs.h"
-
-#include "light_color.h"
+#include "settings.h"
 
 PusherClient client;
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-
-light_color lightColor;
+byte mac[] = MAC_ADDRESS;
 
 void setup() {
-	lightColor = { 0, 0, 0 };
-
 	Serial.begin(9600);
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Init Ethernet failed");
   }
 
-	if(client.connect("62b391c0f827198df078")) {
-		client.bind("hashtag_tweeted", hashtagTweeted);
+	if(client.connect(PUSHER_KEY)) {
+		if (IS_LISTENING_FRIENDS) {
+			client.bind("friends_tweeted", lightUp);
+		}
+
+		if (IS_LISTENING_ADS) {
+			client.bind("ads_tweeted", lightUp);
+		}
+
 		client.subscribe("smw2015_channel");
 	}
 	else {
@@ -30,7 +31,6 @@ void setup() {
 	}
 
   initLights();
-  turnLightOff();
 }
 
 void loop() {
@@ -39,10 +39,10 @@ void loop() {
 	}
 }
 
-void hashtagTweeted(String data) {
+void lightUp(String data) {
 	Serial.print("Data received: ");
 	Serial.println(data);
-	setLightToRgbColor(0, 255, 0);
-	delay(1000);
+	setLightToRgbColor(RED, GREEN, BLUE);
+	delay(LIGHTUP_DURATION);
 	turnLightOff();
 }

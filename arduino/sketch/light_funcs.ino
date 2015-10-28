@@ -22,4 +22,5 @@ void setLightToRgbColor(int red, int green, int blue) {
 void initLights() {
 	BlinkM_beginWithPower();
 	BlinkM_stopScript(blinkm_addr);  // turn off startup script
+  turnLightOff();
 }

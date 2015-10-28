@@ -3,8 +3,6 @@
 var express = require('express');
 var app = express();
 
-var actionTriggered = false;
-
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -22,15 +20,6 @@ app.get('/', function (req, res) {
   res.send("HELLO WORLD");
 });
 
-app.get('/light/1/color', function(req, res) {
-  var color = 'r0,g0,b0';
-  if (actionTriggered) {
-    color = 'r0,g255,b0\n';
-    actionTriggered = !actionTriggered;
-  }
-  res.send(color);
-});
-
 // Twit library for consuming twitter streams
 // https://github.com/ttezel/twit
 var Twit = require('twit');
@@ -40,14 +29,21 @@ var twit = new Twit({
   access_token: process.env.TWITTER_ACCESS_TOKEN,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
-var stream = twit.stream('statuses/filter', { track: "#" + process.env.HASHTAG });
-console.info("Hashtag: ", process.env.HASHTAG);
 
-stream.on('tweet', function(tweet) {
-  console.info("Hashtag Tweeted: ", process.env.HASHTAG);
-    pusher.trigger('smw2015_channel', 'hashtag_tweeted', {
-      "hashtag": process.env.HASHTAG
-    });
+var friendsCount = 0;
+var friendsStream = twit.stream('statuses/filter', { track: "#friends" });
+friendsStream.on('tweet', function(tweet) {
+    friendsCount++;
+    pusher.trigger('smw2015_channel', 'friends_tweeted', {});
+    console.log("'#friends' tweet found. id #" + tweet["id"] + ". " + friendsCount + " tweets so far.");
+});
+
+var adsCount = 0;
+var adsStream = twit.stream('statuses/filter', { track: "#ads" });
+adsStream.on('tweet', function(tweet) {
+    adsCount++;
+    pusher.trigger('smw2015_channel', 'ads_tweeted', {});
+    console.log("'#ads' tweet found. id #" + tweet["id"] + ". " + adsCount + " tweets so far.");
 });
 
 var server = app.listen(process.env.PORT || 3000, function () {
