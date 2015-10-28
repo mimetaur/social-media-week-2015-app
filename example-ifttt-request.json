@@ -1,8 +1,0 @@
-{
-  "channel": "twitter",
-  "triggers": [
-		{
-			"search": "#beach"
-		},
-	],
-}
