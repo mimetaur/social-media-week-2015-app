@@ -16,21 +16,18 @@ void setup() {
   }
 
 	if(client.connect(PUSHER_KEY)) {
-		if (IS_LISTENING_FRIENDS) {
-			client.bind("friends_tweeted", lightUp);
-		}
-
-		if (IS_LISTENING_ADS) {
-			client.bind("ads_tweeted", lightUp);
-		}
-
+		client.bind("friends_tweeted", lightUpFriends);
+		client.bind("ads_tweeted", lightUpAds);
 		client.subscribe("smw2015_channel");
 	}
 	else {
 		while(1) {}
 	}
 
-  initLights();
+	pinMode(12, OUTPUT);
+	digitalWrite(12, LOW);
+  pinMode(13, OUTPUT);
+	digitalWrite(12, HIGH);
 }
 
 void loop() {
@@ -39,10 +36,18 @@ void loop() {
 	}
 }
 
-void lightUp(String data) {
+void lightUpFriends(String data) {
 	Serial.print("Data received: ");
 	Serial.println(data);
-	setLightToRgbColor(RED, GREEN, BLUE);
+	digitalWrite(12, HIGH);
 	delay(LIGHTUP_DURATION);
-	turnLightOff();
+	digitalWrite(12, LOW);
+}
+
+void lightUpAds(String data) {
+	Serial.print("Data received: ");
+	Serial.println(data);
+	digitalWrite(13, HIGH);
+	delay(LIGHTUP_DURATION);
+	digitalWrite(13, LOW);
 }
