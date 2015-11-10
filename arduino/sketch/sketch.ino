@@ -3,13 +3,17 @@
 #include <Ethernet.h>
 #include <PusherClient.h>
 #include "Wire.h"
-#include "BlinkM_funcs.h"
 #include "settings.h"
 
 PusherClient client;
 byte mac[] = MAC_ADDRESS;
 
 void setup() {
+  pinMode(8, OUTPUT);
+  digitalWrite(8, HIGH);
+  pinMode(9, OUTPUT);
+  digitalWrite(9, HIGH);
+  
 	Serial.begin(9600);
   if (Ethernet.begin(mac) == 0) {
     Serial.println("Init Ethernet failed");
@@ -23,11 +27,6 @@ void setup() {
 	else {
 		while(1) {}
 	}
-
-	pinMode(12, OUTPUT);
-	digitalWrite(12, LOW);
-  pinMode(13, OUTPUT);
-	digitalWrite(12, HIGH);
 }
 
 void loop() {
@@ -39,15 +38,17 @@ void loop() {
 void lightUpFriends(String data) {
 	Serial.print("Data received: ");
 	Serial.println(data);
-	digitalWrite(12, HIGH);
+	digitalWrite(8, LOW);
 	delay(LIGHTUP_DURATION);
-	digitalWrite(12, LOW);
+	digitalWrite(8, HIGH);
+  delay(LIGHTDOWN_DURATION);
 }
 
 void lightUpAds(String data) {
 	Serial.print("Data received: ");
 	Serial.println(data);
-	digitalWrite(13, HIGH);
+	digitalWrite(9, LOW);
 	delay(LIGHTUP_DURATION);
-	digitalWrite(13, LOW);
+	digitalWrite(9, HIGH);
+  delay(LIGHTDOWN_DURATION);
 }
